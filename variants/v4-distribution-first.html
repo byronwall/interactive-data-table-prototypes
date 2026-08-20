@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <title>Distribution-First Mode · Interactive table variants</title>
+    <style>
+      .variant-v4{--paper:#eef2ef;--panel:#fff;--wash:#e4ebe7;--wash-cool:#dce8eb;--line:#c4cfca;--line-strong:#899a92;--ink:#12261f;--ink-soft:#304a40;--muted:#5d7169;--accent:#166b58;--accent-strong:#0e4f41;--accent-wash:#d8eee7;background:var(--paper)}
+      .variant-v4 .prototype-chrome{background:rgba(238,242,239,.98)}
+      .v4-shell{width:min(1600px,calc(100% - 32px));margin:0 auto;padding:22px 0 48px}
+      .v4-mast{display:grid;grid-template-columns:minmax(330px,.8fr) minmax(680px,1.4fr);align-items:end;gap:24px;margin-bottom:14px;padding:16px 18px;border:1px solid var(--line-strong);background:#f8faf8;box-shadow:0 6px 18px rgba(18,38,31,.07)}
+      .v4-mast .page-context{display:block}.v4-mast .page-context h1{margin-bottom:4px;font-size:30px}.v4-mast .page-context .lede{max-width:58ch;font-size:13px}.v4-mast .dataset-stamp{width:min(100%,270px);margin-top:14px;background:transparent}
+      .v4-mast .command-bar{grid-template-columns:minmax(220px,1.25fr) minmax(190px,.9fr) minmax(150px,.7fr);border-color:var(--line-strong);background:#fff}.v4-mast .command-actions{grid-column:1/-1;justify-content:flex-start}.v4-mast .command-result{right:14px;bottom:8px}.v4-quality{margin-bottom:12px}
+      .v4-analysis-stage{display:grid;grid-template-columns:minmax(300px,340px) minmax(650px,1fr);gap:12px;align-items:start;margin-bottom:12px}.v4-filter-rail,.v4-distribution-canvas,.v4-results{min-width:0;border:1px solid var(--line-strong);background:var(--panel);box-shadow:0 5px 16px rgba(18,38,31,.06)}.v4-filter-rail{position:sticky;top:66px;max-height:calc(100vh - 80px);overflow:auto;overscroll-behavior:contain}
+      .v4-stage-label{position:sticky;top:0;z-index:4;display:grid;grid-template-columns:34px 1fr;gap:0 10px;align-items:center;min-height:54px;padding:9px 12px;border-bottom:1px solid var(--line-strong);background:#dfe8e3}.v4-stage-label>span{grid-row:1/span 2;display:grid;width:32px;height:32px;place-items:center;border:1px solid #60786e;color:#223c32;font-weight:850}.v4-stage-label strong{align-self:end;font-size:12px;text-transform:uppercase;letter-spacing:.07em}.v4-stage-label small{align-self:start;color:var(--muted);font-size:9px}
+      .v4-filter-surface .filter-builder{padding:14px}.v4-filter-surface .surface-heading{display:block;margin-bottom:12px}.v4-filter-surface .surface-heading h2{font-size:17px}.v4-filter-surface .surface-heading p:last-child{font-size:10px}.v4-filter-surface .filter-set-row,.v4-filter-surface .condition-grid,.v4-filter-surface .condition-row{grid-template-columns:1fr}.v4-filter-surface .condition-actions,.v4-filter-surface .dialog-actions{justify-content:flex-start}
+      .v4-distribution-canvas{overflow:hidden}.v4-distribution-canvas .distribution{border:0;background:#fbfdfc}.v4-distribution-canvas .distribution__heading{padding:18px 20px 12px;border-bottom:1px solid var(--line)}.v4-distribution-canvas .distribution__heading h2{font-size:22px}.v4-distribution-canvas .distribution__heading p{max-width:68ch}.v4-distribution-canvas .distribution__controls{justify-content:flex-start;margin-top:10px}.v4-distribution-canvas .histogram{grid-template-columns:repeat(14,minmax(34px,1fr));gap:7px;min-height:290px;padding:18px 20px 14px;align-items:end;background:linear-gradient(to top,rgba(22,107,88,.07) 1px,transparent 1px) 0 0/100% 25%,#f7faf8}.v4-distribution-canvas .histogram-bin{min-width:0}.v4-distribution-canvas .histogram-bin__bar{min-height:4px;border-color:#166b58;background:#8ec8b8}.v4-distribution-canvas .histogram-bin__working{background:#155e50}.v4-distribution-canvas .histogram-bin__label{font-size:9px}.v4-distribution-canvas .outlier-lane{margin:0 20px 18px;padding:12px;border:1px dashed #8c5b34;background:#fff4e9}.v4-distribution-canvas .category-bars,.v4-distribution-canvas .period-bars{padding:18px 20px 20px}.v4-distribution-canvas .category-bar,.v4-distribution-canvas .period-bar{min-height:36px}
+      .v4-results{overflow:hidden}.v4-results .state-summary{grid-template-columns:auto minmax(230px,1fr);padding:12px 14px;border-bottom-color:var(--line-strong)}.v4-results .state-summary__statement{text-align:right}.v4-results .filter-chips,.v4-results .state-summary__actions{grid-column:1/-1;justify-content:flex-start}.v4-results .table-frame{border:0}.v4-results .table-scroll{max-height:580px}.variant-v4[data-scenario="filtered"] .v4-distribution-canvas{outline:3px solid #5b917f;outline-offset:-3px}.variant-v4[data-scenario="fields"] dialog[data-surface="fields"] .surface-dialog__shell{border-color:var(--accent-strong)}.variant-v4 .detail-surface{top:55px}
+      @media(max-width:1120px){.v4-mast{grid-template-columns:1fr}.v4-analysis-stage{grid-template-columns:minmax(270px,310px) minmax(520px,1fr)}}
+      @media(max-width:860px){.v4-shell{width:min(calc(100% - 20px),820px);padding-top:14px}.v4-mast{padding:12px}.v4-mast .command-bar{grid-template-columns:1fr}.v4-mast .command-actions{grid-column:auto}.v4-analysis-stage{grid-template-columns:1fr}.v4-filter-rail{position:static;max-height:660px}.v4-distribution-canvas .histogram{grid-template-columns:repeat(7,minmax(30px,1fr));min-height:250px}.v4-results .state-summary{grid-template-columns:1fr}.v4-results .state-summary__statement{text-align:left}.v4-results .table-scroll{max-height:620px}}
+      @media(max-width:620px){.v4-distribution-canvas .histogram{gap:5px;padding-inline:12px}.v4-distribution-canvas .outlier-lane{margin-inline:12px}}
+    </style>
+  </head>
+  <body class="variant-v4" data-variant="v4">
+    <!-- THESIS: Users should understand the shape, periods, categories, and outliers of the current slice before scanning individual rows. -->
+    <a class="skip-link" href="#main-content">Skip to orders table</a>
+    <header class="prototype-chrome">
+      <div class="prototype-chrome__identity"><strong>Interactive table study</strong><span>Distribution-first · shape the slice before scanning rows</span></div>
+      <div class="prototype-chrome__tools"><div data-component="variant-nav"></div><div data-component="scenario-nav"></div></div>
+    </header>
+    <main class="v4-shell" id="main-content">
+      <section class="v4-mast" aria-label="Distribution view context and commands"><div data-component="page-context"></div><div data-component="command-bar" data-compact="true" data-instance="distribution-first"></div></section>
+      <div class="v4-quality" data-component="quality-warning"></div><div data-component="narrow-note"></div>
+      <section class="v4-analysis-stage" aria-label="Visual filtering stage">
+        <aside class="v4-filter-rail" aria-label="Persistent visual filter controls"><div class="v4-stage-label"><span aria-hidden="true">F</span><strong>Shape the slice</strong><small>Field · operator · value · recovery</small></div><div class="v4-filter-surface" data-surface="filters" data-persistent="true"><div data-component="filter-builder"></div></div></aside>
+        <section class="v4-distribution-canvas" aria-label="Large type-aware distribution canvas"><div class="v4-stage-label"><span aria-hidden="true">D</span><strong>Read the distribution</strong><small>Working set over all 126 orders · raw or normalized</small></div><div data-component="distribution"></div></section>
+      </section>
+      <section class="v4-results" aria-label="Orders matching the visible distribution"><div data-component="state-summary"></div><div data-component="table"></div></section>
+    </main>
+    <aside class="detail-surface" data-surface="detail" aria-label="Order detail and match reasoning" aria-hidden="true" hidden><div data-component="detail"></div></aside>
+    <dialog class="surface-dialog" data-surface="fields" aria-labelledby="v4-fields-title"><div class="surface-dialog__shell"><div class="surface-dialog__heading"><div><p class="eyebrow">Supporting table control</p><h2 id="v4-fields-title">Choose fields for row inspection</h2></div><button type="button" class="icon-button" data-action="close-surface" data-surface-name="fields" aria-label="Close field explorer">×</button></div><div data-component="field-explorer"></div></div></dialog>
+    <script>window.TABLE_VARIANTS_PUBLISHED=["v1","v2","v3","v4"];</script>
+    <script src="./assets/bootstrap.js"></script>
+  </body>
+</html>
