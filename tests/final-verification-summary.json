@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-08-19",
+  "browser": "Chromium 144.0.7559.96",
+  "assertions": "passed",
+  "fixture": {
+    "total_rows": 126,
+    "canonical_filtered_rows": 24
+  },
+  "coverage": {
+    "variants": 6,
+    "required_states_per_variant": 8,
+    "state_capture_pairs": 48,
+    "hybrid_mode_capture_pairs": 2,
+    "cross_variant_switch_capture_pairs": 3
+  },
+  "required_states": [
+    "authored default",
+    "filtered exploration",
+    "field explorer open",
+    "rich detail open",
+    "no-results recovery",
+    "narrow width",
+    "saved state",
+    "data-quality warning"
+  ],
+  "interaction_checks": [
+    "field search, multi-select, persistent selected state, reorder, visibility, width, auto-width, and empty recovery",
+    "numeric raw/normalized visuals, working-vs-total overlays, category/date distributions, malformed-value disclosure, and outlier lane",
+    "explicit field/operator/value builder, named modes, live result count, validation, editable/removable chips, saved filter sets, reset, and clear-all",
+    "focus restoration, keyboard operation, ARIA state, non-color status signals, and narrow-width overflow disclosure",
+    "V6 Report/Explore keyboard switching without table reset",
+    "cross-variant state restoration after switching V3 to V6 and back"
+  ],
+  "visual_comparison": {
+    "dimensions_match": true,
+    "mismatched_pixels": 0,
+    "blocking_failures": 0,
+    "binary_artifacts": ".artifacts/playwright (gitignored)",
+    "durable_reports": [
+      "tests/visual-report.json",
+      "tests/hybrid-switch-report.json",
+      "tests/variant-switch-report.json"
+    ]
+  },
+  "representative_frames_inspected": [
+    "desktop authored and filtered states for every variant",
+    "field explorer, rich detail, no-results recovery, and data-quality warning",
+    "narrow-width composition",
+    "V6 Report and Explore modes",
+    "V3 filtered before switch, V6 independent state, and V3 restored state"
+  ]
+}
