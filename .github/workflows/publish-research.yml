@@ -1,0 +1,74 @@
+name: Publish research artifacts
+
+on:
+  push:
+    branches:
+      - research/data-table-ecosystem-comparison-2026-08-19
+    paths:
+      - .research-payload/part-01.b64
+      - .github/workflows/publish-research.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Decode, verify, and stage research artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 - <<'PY'
+          from __future__ import annotations
+
+          import base64
+          import hashlib
+          import io
+          import lzma
+          import tarfile
+          from pathlib import Path
+
+          payload_path = Path('.research-payload/part-01.b64')
+          expected = {
+              'research-data-table-libraries.md': 'ae495f6ebca041bc303e0edb79a204515eb009fde199876b64584a6bae7f9dfb',
+              'research-data-table-libraries.csv': 'cec990b454c4e9c19bbd002485c44528dd72b109e8054877de6be29b4fa7fcf4',
+          }
+
+          encoded = payload_path.read_text(encoding='utf-8').strip()
+          decoded = lzma.decompress(base64.b64decode(encoded, validate=True))
+
+          with tarfile.open(fileobj=io.BytesIO(decoded), mode='r:*') as archive:
+              members = {Path(member.name).name: member for member in archive.getmembers() if member.isfile()}
+              for filename in expected:
+                  member = members.get(filename)
+                  if member is None:
+                      raise RuntimeError(f'Missing {filename} in research payload')
+                  source = archive.extractfile(member)
+                  if source is None:
+                      raise RuntimeError(f'Unable to read {filename} from research payload')
+                  Path(filename).write_bytes(source.read())
+
+          for filename, expected_sha256 in expected.items():
+              actual_sha256 = hashlib.sha256(Path(filename).read_bytes()).hexdigest()
+              if actual_sha256 != expected_sha256:
+                  raise RuntimeError(
+                      f'Checksum mismatch for {filename}: expected {expected_sha256}, got {actual_sha256}'
+                  )
+              print(f'Verified {filename}: {actual_sha256}')
+          PY
+
+          rm -rf .research-payload
+          rm -f .github/workflows/publish-research.yml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- research-data-table-libraries.md research-data-table-libraries.csv .research-payload .github/workflows/publish-research.yml
+          git commit -m "feat(research): add data table ecosystem comparison"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
