@@ -72,3 +72,5 @@ jobs:
           git add -- research-data-table-libraries.md research-data-table-libraries.csv .research-payload .github/workflows/publish-research.yml
           git commit -m "feat(research): add data table ecosystem comparison"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+# Trigger revision: 2026-08-19T23:59:00-04:00
