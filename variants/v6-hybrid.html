@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./assets/v6-hybrid.css" />
+    <title>Hybrid Report + Workbench Mode · Interactive table variants</title>
+  </head>
+  <body class="variant-v6" data-variant="v6" data-hybrid-mode="report">
+    <!-- THESIS: A table can open as a calm report and expose a bounded analytical workbench only when the user explicitly asks to explore. -->
+    <a class="skip-link" href="#main-content">Skip to orders table</a>
+    <header class="prototype-chrome">
+      <div class="prototype-chrome__identity"><strong>Interactive table study</strong><span>Hybrid report + workbench · calm by default, bounded on demand</span></div>
+      <div class="prototype-chrome__tools"><div data-component="variant-nav"></div><div data-component="scenario-nav"></div></div>
+    </header>
+    <main class="v6-shell" id="main-content">
+      <section class="v6-mast" aria-label="Hybrid view context and commands"><div data-component="page-context"></div><div data-component="command-bar" data-compact="true" data-instance="hybrid"></div></section>
+      <div class="v6-quality" data-component="quality-warning"></div><div data-component="narrow-note"></div>
+      <section class="v6-mode-bar" aria-labelledby="v6-mode-title">
+        <div><p class="eyebrow">Working posture</p><h2 id="v6-mode-title">Read the report or open the workbench</h2><p data-hybrid-mode-description>Report keeps the authored table and compact distribution in view.</p></div>
+        <div class="v6-mode-switch" role="group" aria-label="Report or Explore mode">
+          <button type="button" data-hybrid-mode-control="report" aria-pressed="true"><span aria-hidden="true">R</span><strong>Report</strong><small>Read and inspect</small></button>
+          <button type="button" data-hybrid-mode-control="explore" aria-pressed="false"><span aria-hidden="true">E</span><strong>Explore</strong><small>Shape and recover</small></button>
+        </div>
+      </section>
+      <section class="v6-state" aria-label="Current report state"><div data-component="state-summary"></div></section>
+      <section class="v6-workbench" aria-label="Bounded exploration workbench">
+        <aside class="v6-fields" data-surface="fields" data-persistent="true" aria-label="Field controls"><div class="v6-panel-label"><span aria-hidden="true">1</span><strong>Fields</strong><small>Search · select · order · width</small></div><div data-component="field-explorer"></div></aside>
+        <section class="v6-filters" data-surface="filters" data-persistent="true" aria-label="Condition builder"><div class="v6-panel-label"><span aria-hidden="true">2</span><strong>Conditions</strong><small>Named modes · live count · recovery</small></div><div data-component="filter-builder"></div></section>
+        <section class="v6-distribution" aria-label="Distribution summary and visual filter context"><div class="v6-panel-label"><span aria-hidden="true">3</span><strong>Distribution</strong><small>Working set · total set · outliers</small></div><div data-component="distribution" data-compact="true"></div></section>
+      </section>
+      <section class="v6-table" aria-label="Orders report"><div class="v6-table-label"><span>Orders</span><small>The same table instance remains mounted in both modes.</small></div><div data-component="table"></div></section>
+    </main>
+    <aside class="detail-surface" data-surface="detail" aria-label="Order detail and match reasoning" aria-hidden="true" hidden><div data-component="detail"></div></aside>
+    <script>
+      window.TABLE_VARIANTS_PUBLISHED = ["v1", "v2", "v3", "v4", "v5", "v6"];
+      (() => {
+        "use strict";
+        const body = document.body;
+        const scenario = body.dataset.scenario || "authored";
+        const forcedExplore = new Set(["filtered", "fields", "no-results"]);
+        const storageKey = "interactive-table:v6:hybrid-mode";
+        let storedMode = "report";
+        try {
+          const candidate = window.localStorage.getItem(storageKey);
+          if (candidate === "report" || candidate === "explore") storedMode = candidate;
+        } catch (error) {
+          console.info("[hybrid-mode] localStorage unavailable; using the document state", error?.name || "storage error");
+        }
+        const controls = [...document.querySelectorAll("[data-hybrid-mode-control]")];
+        const description = document.querySelector("[data-hybrid-mode-description]");
+        const copy = {
+          report: "Report keeps the authored table and compact distribution in view.",
+          explore: "Explore reveals field, condition, and distribution controls without remounting the table.",
+        };
+        function setMode(mode, persist = true) {
+          if (mode !== "report" && mode !== "explore") return;
+          body.dataset.hybridMode = mode;
+          controls.forEach((control) => control.setAttribute("aria-pressed", String(control.dataset.hybridModeControl === mode)));
+          if (description) description.textContent = copy[mode];
+          if (!persist) return;
+          try { window.localStorage.setItem(storageKey, mode); }
+          catch (error) { console.info("[hybrid-mode] mode retained for this document only", error?.name || "storage error"); }
+        }
+        controls.forEach((control) => control.addEventListener("click", () => setMode(control.dataset.hybridModeControl)));
+        setMode(forcedExplore.has(scenario) ? "explore" : storedMode, false);
+        window.TABLE_HYBRID_MODE = { setMode, getMode: () => body.dataset.hybridMode };
+      })();
+    </script>
+    <script src="./assets/bootstrap.js"></script>
+  </body>
+</html>
