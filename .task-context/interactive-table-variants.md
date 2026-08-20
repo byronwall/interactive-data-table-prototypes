@@ -136,6 +136,19 @@ Scores use 0 for failure and 10 for reliably meeting the named table outcome.
 ### V1 tradeoffs and risks
 
 - The always-visible compact distribution adds useful context but makes the default report longer than a table-only design.
-- Native modal field and filter surfaces preserve table calm but make repeated cross-field tuning slower than a persistent workbench.
+- Native modal field and filter surfaces preserve table width and focus, but repeated configuration requires reopening surfaces.
 - The verification container blocks top-level HTTP, HTTPS, and file navigation. The harness navigates to `about:blank`, injects checked-in documents verbatim, and separately asserts switch hrefs; this is recorded in `tests/visual-report.json`.
 - Screenshot baselines are intentionally local and ignored. The committed report records dimensions, SHA-256 hashes, browser version, mismatch counts, and the representative frames inspected.
+
+## Implementation observations
+
+### V1 Quiet Report
+
+- The report-first shell remains the strongest calm baseline. Eight deterministic scenarios pass semantic, interaction, and exact screenshot comparison checks.
+- Modal field/filter disclosure preserves table width and focus, but repeated configuration requires reopening surfaces.
+
+### V2 Workbench Rail
+
+- Persistent rails make field and query mechanics continuously legible without weakening validation, recovery, or saved-state behavior.
+- A three-column desktop composition remains readable at 1440px. At 760px the rails become bounded stacked work areas and the table retains explicit horizontal overflow.
+- The tradeoff is measurable: less default table width and a substantially longer narrow review path. This is intentional, not a responsive collapse.

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./assets/v2-workbench.css" />
+    <title>Workbench Rail Mode · Interactive table variants</title>
+  </head>
+  <body class="variant-v2" data-variant="v2">
+    <!--
+      THESIS: Repeated data exploration should keep fields, query construction, and distributions physically present; this concept refuses hidden configuration as the primary workflow.
+      OWN-WORLD: Cool instrument-gray rails, blue measurement marks, compact ruled controls, and a white table canvas with explicit panel boundaries.
+      STORY: Scan the table while continuously adjusting field shape on the left and query/distribution logic on the right, without reopening an overlay.
+      FIRST VIEWPORT: A compact mast sits above a three-column workbench: field rail, dominant table, and analysis rail, each independently scrollable.
+      FORM: Operate-mode analytical workbench, ranked first for repeated configuration speed; persistent rails trade reading calm for control continuity.
+    -->
+    <a class="skip-link" href="#main-content">Skip to orders table</a>
+
+    <header class="prototype-chrome">
+      <div class="prototype-chrome__identity">
+        <strong>Interactive table study</strong>
+        <span>Workbench rail · persistent fields, filters, and distributions</span>
+      </div>
+      <div class="prototype-chrome__tools">
+        <div data-component="variant-nav"></div>
+        <div data-component="scenario-nav"></div>
+      </div>
+    </header>
+
+    <main class="v2-shell" id="main-content">
+      <section class="v2-mast" aria-label="Workbench context and commands">
+        <div data-component="page-context"></div>
+        <div data-component="command-bar" data-compact="true" data-instance="workbench"></div>
+      </section>
+
+      <div class="v2-quality" data-component="quality-warning"></div>
+      <div data-component="narrow-note"></div>
+
+      <section class="v2-workbench" aria-label="Persistent table workbench">
+        <aside class="v2-field-rail" data-surface="fields" data-persistent="true" aria-label="Persistent field explorer">
+          <div class="v2-rail-label"><span aria-hidden="true">A</span><strong>Fields</strong><small>Selection · order · width</small></div>
+          <div data-component="field-explorer"></div>
+        </aside>
+
+        <section class="v2-table-column" aria-label="Orders and current query">
+          <div data-component="state-summary"></div>
+          <div data-component="table"></div>
+        </section>
+
+        <aside class="v2-analysis-rail" aria-label="Persistent filtering and distribution controls">
+          <div class="v2-rail-label"><span aria-hidden="true">B</span><strong>Analysis</strong><small>Shape · query · recovery</small></div>
+          <div class="v2-distribution" data-component="distribution" data-compact="true"></div>
+          <section class="v2-filter-surface" data-surface="filters" data-persistent="true" aria-label="Persistent filter builder">
+            <div data-component="filter-builder"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <aside class="detail-surface" data-surface="detail" aria-label="Order detail and match reasoning" aria-hidden="true" hidden>
+      <div data-component="detail"></div>
+    </aside>
+
+    <script src="./assets/manifest.js"></script>
+    <script src="./assets/bootstrap.js"></script>
+  </body>
+</html>

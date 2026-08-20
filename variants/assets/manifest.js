@@ -1,1 +1,1 @@
-window.TABLE_VARIANTS_PUBLISHED = ["v1"];
+window.TABLE_VARIANTS_PUBLISHED = ["v1", "v2"];
