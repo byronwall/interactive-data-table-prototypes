@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <title>Inspector &amp; Match-Reasoning Mode · Interactive table variants</title>
+    <style>
+      .variant-v5{--paper:#edf0f2;--panel:#fff;--wash:#e2e7ea;--wash-cool:#dfe8ed;--line:#c4cdd2;--line-strong:#87969f;--ink:#14232c;--ink-soft:#334853;--muted:#5f717b;--accent:#315f78;--accent-strong:#20485f;--accent-wash:#dceaf2;background:var(--paper)}
+      .variant-v5 .prototype-chrome{background:rgba(237,240,242,.98)}.v5-shell{width:min(1580px,calc(100% - 32px));margin:0 auto;padding:22px 0 48px}.v5-mast{display:grid;grid-template-columns:minmax(350px,.9fr) minmax(650px,1.35fr);align-items:end;gap:24px;margin-bottom:12px;padding:16px 18px;border:1px solid var(--line-strong);background:#f8fafb;box-shadow:0 6px 18px rgba(20,35,44,.07)}.v5-mast .page-context{display:block}.v5-mast .page-context h1{margin-bottom:4px;font-size:30px}.v5-mast .page-context .lede{max-width:58ch;font-size:13px}.v5-mast .dataset-stamp{width:min(100%,270px);margin-top:14px;background:transparent}.v5-mast .command-bar{grid-template-columns:minmax(220px,1.2fr) minmax(185px,.9fr) minmax(155px,.75fr);border-color:var(--line-strong);background:#fff}.v5-mast .command-actions{grid-column:1/-1;justify-content:flex-start}.v5-mast .command-result{right:14px;bottom:8px}.v5-quality{margin-bottom:12px}
+      .v5-layout{display:grid;grid-template-columns:minmax(650px,1fr) minmax(350px,410px);gap:12px;align-items:start}.v5-report,.v5-inspector{min-width:0;border:1px solid var(--line-strong);background:var(--panel);box-shadow:0 5px 16px rgba(20,35,44,.06)}.v5-report{overflow:hidden}.v5-report .state-summary{grid-template-columns:auto minmax(230px,1fr);padding:12px 14px;border-bottom-color:var(--line-strong)}.v5-report .state-summary__statement{text-align:right}.v5-report .filter-chips,.v5-report .state-summary__actions{grid-column:1/-1;justify-content:flex-start}.v5-report .table-frame{border:0}.v5-report .table-scroll{max-height:calc(100vh - 255px);min-height:520px}
+      .v5-inspector{position:sticky;top:66px;max-height:calc(100vh - 80px);overflow:auto;overscroll-behavior:contain}.v5-inspector__label{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:34px 1fr;gap:0 10px;align-items:center;min-height:54px;padding:9px 12px;border-bottom:1px solid var(--line-strong);background:#253946;color:#f5f8fa}.v5-inspector__label>span{grid-row:1/span 2;display:grid;width:32px;height:32px;place-items:center;border:1px solid #9bb0bd;font-weight:850}.v5-inspector__label strong{align-self:end;font-size:12px;text-transform:uppercase;letter-spacing:.07em}.v5-inspector__label small{align-self:start;color:#c5d0d6;font-size:9px}.v5-reasoning-key{padding:12px;border-bottom:1px solid var(--line);background:#f4f7f8}.v5-reasoning-key p{margin:0 0 8px;color:var(--ink-soft);font-size:11px}.v5-reasoning-key ol{display:grid;gap:6px;margin:0;padding:0;list-style:none;counter-reset:reason}.v5-reasoning-key li{counter-increment:reason;display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start;font-size:10px}.v5-reasoning-key li::before{content:counter(reason);display:grid;width:22px;height:22px;place-items:center;border:1px solid #708996;background:#fff;font-weight:800}.v5-inspector [data-component="detail"]{min-height:280px}.v5-inspector .detail-panel,.v5-inspector .detail-empty{border:0;box-shadow:none}.v5-inspector .match-reasoning{border-left:4px solid #315f78;background:#edf5f8}.v5-inspector .detail-quality{border-left:4px solid #9b552e;background:#fff2e8}.variant-v5[data-scenario="filtered"] .v5-inspector{outline:3px solid #668da1;outline-offset:-3px}.variant-v5[data-scenario="detail"] .v5-inspector{outline:3px solid #315f78;outline-offset:-3px}.variant-v5[data-scenario="quality"] .v5-inspector{outline:3px solid #a45c32;outline-offset:-3px}
+      .variant-v5 dialog.surface-dialog .surface-dialog__shell{max-width:min(1040px,calc(100vw - 36px))}.variant-v5 .filter-builder{padding:16px}.variant-v5 .detail-surface{display:none!important}
+      @media(max-width:1080px){.v5-mast{grid-template-columns:1fr}.v5-layout{grid-template-columns:minmax(520px,1fr) minmax(320px,360px)}}
+      @media(max-width:850px){.v5-shell{width:min(calc(100% - 20px),810px);padding-top:14px}.v5-mast{padding:12px}.v5-mast .command-bar{grid-template-columns:1fr}.v5-mast .command-actions{grid-column:auto}.v5-layout{grid-template-columns:1fr}.v5-inspector{position:static;max-height:660px;order:1}.v5-report{order:2}.v5-report .state-summary{grid-template-columns:1fr}.v5-report .state-summary__statement{text-align:left}.v5-report .table-scroll{min-height:0;max-height:620px}}
+    </style>
+  </head>
+  <body class="variant-v5" data-variant="v5">
+    <!-- THESIS: A trustworthy data table should explain the active AND chain, hidden-field evidence, source-value defects, and the selected row in one persistent place. -->
+    <a class="skip-link" href="#main-content">Skip to orders table</a>
+    <header class="prototype-chrome"><div class="prototype-chrome__identity"><strong>Interactive table study</strong><span>Inspector reasoning · explain the query and every selected row</span></div><div class="prototype-chrome__tools"><div data-component="variant-nav"></div><div data-component="scenario-nav"></div></div></header>
+    <main class="v5-shell" id="main-content">
+      <section class="v5-mast" aria-label="Reasoning view context and commands"><div data-component="page-context"></div><div data-component="command-bar" data-compact="true" data-instance="reasoning"></div></section>
+      <div class="v5-quality" data-component="quality-warning"></div><div data-component="narrow-note"></div>
+      <section class="v5-layout">
+        <section class="v5-report" aria-label="Orders and active query"><div data-component="state-summary"></div><div data-component="table"></div></section>
+        <aside class="v5-inspector" data-surface="detail" data-persistent="true" aria-label="Persistent query and row reasoning inspector">
+          <div class="v5-inspector__label"><span aria-hidden="true">I</span><strong>Evidence inspector</strong><small>AND chain · selected row · hidden fields · quality</small></div>
+          <div class="v5-reasoning-key"><p>The inspector separates three questions instead of relying on highlight color alone.</p><ol><li><span>Which conditions define the current slice?</span></li><li><span>Why does the selected row satisfy each condition?</span></li><li><span>Which hidden or malformed source values affect trust?</span></li></ol></div>
+          <div data-component="detail"></div>
+        </aside>
+      </section>
+    </main>
+    <dialog class="surface-dialog" data-surface="fields" aria-labelledby="v5-fields-title"><div class="surface-dialog__shell"><div class="surface-dialog__heading"><div><p class="eyebrow">Table evidence</p><h2 id="v5-fields-title">Choose visible and hidden evidence fields</h2></div><button type="button" class="icon-button" data-action="close-surface" data-surface-name="fields" aria-label="Close field explorer">×</button></div><div data-component="field-explorer"></div></div></dialog>
+    <dialog class="surface-dialog" data-surface="filters" aria-labelledby="v5-filters-title"><div class="surface-dialog__shell"><div class="surface-dialog__heading"><div><p class="eyebrow">Query evidence</p><h2 id="v5-filters-title">Build explicit conditions</h2></div><button type="button" class="icon-button" data-action="close-surface" data-surface-name="filters" aria-label="Close filter builder">×</button></div><div data-component="filter-builder"></div></div></dialog>
+    <section class="visually-hidden" aria-hidden="true"><div data-component="distribution" data-compact="true"></div></section>
+    <script>window.TABLE_VARIANTS_PUBLISHED=["v1","v2","v3","v4","v5"];</script><script src="./assets/bootstrap.js"></script>
+  </body>
+</html>
