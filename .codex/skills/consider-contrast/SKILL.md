@@ -1,3 +1,4 @@
+---
 name: consider-contrast
 description: Compare multiple viable approaches before an agent makes a meaningful decision. Score the options from 0 to 10 only on dimensions that are specific and relevant to the task domain, then select the best option or design a stronger hybrid. Use when the user invokes `$consider-contrast`, asks to consider and contrast alternatives, wants to avoid tunnel vision, or wants a decision checkpoint inside a larger investigation, plan, design, or implementation task. Keep this as a proportional inline step unless the user asks for a full decision report.
 ---
@@ -66,5 +67,3 @@ After the table, give a short decision:
 - `Use $consider-contrast for the storage choice, then continue the implementation.`
 - `Before you pick an architecture, use $consider-contrast inline.`
 - `Apply $consider-contrast to the risky decision in this plan.`
-
-</skill>
