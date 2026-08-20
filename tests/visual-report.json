@@ -1,0 +1,257 @@
+{
+  "generated_at": "2026-08-20T03:48:28.721551+00:00",
+  "mode": "compare",
+  "browser": "Chromium 144.0.7559.96",
+  "navigation_mode": "about:blank + checked-in document injection (container URL policy)",
+  "assertion_suite": "passed",
+  "visual_suite": "passed",
+  "cases": [
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "authored",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-authored-desktop.png",
+      "sha256": "b580ea790a4943f753a5d4e68dd57dd17322024f28efe3a3000b1d9f7803986c",
+      "dimensions": [
+        1440,
+        1414
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1414
+      ],
+      "current_dimensions": [
+        1440,
+        1414
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "b580ea790a4943f753a5d4e68dd57dd17322024f28efe3a3000b1d9f7803986c",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "filtered",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-filtered-desktop.png",
+      "sha256": "d5c7909cecb18de21897bc046890461a376d77b390fa2367a5a5af242bed1ea0",
+      "dimensions": [
+        1440,
+        1414
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1414
+      ],
+      "current_dimensions": [
+        1440,
+        1414
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "d5c7909cecb18de21897bc046890461a376d77b390fa2367a5a5af242bed1ea0",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "fields",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-fields-desktop.png",
+      "sha256": "a8f58f6af27b2cd8f46fa7cf54bd5d1258abce25b8a56cffcea9e6b4744e1a63",
+      "dimensions": [
+        1440,
+        1414
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1414
+      ],
+      "current_dimensions": [
+        1440,
+        1414
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "a8f58f6af27b2cd8f46fa7cf54bd5d1258abce25b8a56cffcea9e6b4744e1a63",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "detail",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-detail-desktop.png",
+      "sha256": "7a6f5010ee16ecd4fa5d8e2aca4d648e2fca7495c6bfa0451cc8cffa7fae75e3",
+      "dimensions": [
+        1440,
+        1000
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1000
+      ],
+      "current_dimensions": [
+        1440,
+        1000
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "7a6f5010ee16ecd4fa5d8e2aca4d648e2fca7495c6bfa0451cc8cffa7fae75e3",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "no-results",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-no-results-desktop.png",
+      "sha256": "f55e4c8cb70d2048a3133aed6369d0d826e94ae4b948a290902044774de5bc42",
+      "dimensions": [
+        1440,
+        1148
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1148
+      ],
+      "current_dimensions": [
+        1440,
+        1148
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "f55e4c8cb70d2048a3133aed6369d0d826e94ae4b948a290902044774de5bc42",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "saved",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-saved-desktop.png",
+      "sha256": "4cabab5bc70761df68e59cb712635087120b7a76b629a4f3caecd04909893c90",
+      "dimensions": [
+        1440,
+        1441
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1441
+      ],
+      "current_dimensions": [
+        1440,
+        1441
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "4cabab5bc70761df68e59cb712635087120b7a76b629a4f3caecd04909893c90",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "quality",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-quality-desktop.png",
+      "sha256": "9121c4a6359d62d967460eff366032fd55ae62faaaa5742c53dfc95df6700b72",
+      "dimensions": [
+        1440,
+        1000
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        1440,
+        1000
+      ],
+      "current_dimensions": [
+        1440,
+        1000
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "9121c4a6359d62d967460eff366032fd55ae62faaaa5742c53dfc95df6700b72",
+      "diff_artifact": null
+    },
+    {
+      "variant": "v1",
+      "variant_label": "Quiet Report Mode",
+      "scenario": "narrow",
+      "viewport": {
+        "width": 760,
+        "height": 1000
+      },
+      "artifact": ".artifacts/playwright/current/v1-narrow-narrow.png",
+      "sha256": "61cd5688876c68611bd6c725d6839700ed4b2f34d0ca8a6b0834fd1aa0374a47",
+      "dimensions": [
+        760,
+        2019
+      ],
+      "status": "passed",
+      "reason": "identical",
+      "baseline_dimensions": [
+        760,
+        2019
+      ],
+      "current_dimensions": [
+        760,
+        2019
+      ],
+      "mismatched_pixels": 0,
+      "mismatch_ratio": 0.0,
+      "max_channel_delta": 0,
+      "baseline_sha256": "61cd5688876c68611bd6c725d6839700ed4b2f34d0ca8a6b0834fd1aa0374a47",
+      "diff_artifact": null
+    }
+  ],
+  "representative_human_inspection": [
+    ".artifacts/playwright/current/v1-authored-desktop.png",
+    ".artifacts/playwright/current/v1-fields-desktop.png",
+    ".artifacts/playwright/current/v1-no-results-desktop.png",
+    ".artifacts/playwright/current/v1-quality-desktop.png",
+    ".artifacts/playwright/current/v1-narrow-narrow.png"
+  ]
+}

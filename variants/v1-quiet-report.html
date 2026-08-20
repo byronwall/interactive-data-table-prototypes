@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <title>Quiet Report Mode · Interactive table variants</title>
+  </head>
+  <body class="variant-v1" data-variant="v1">
+    <!--
+      THESIS: A purchase-order table should read like a finished operational report until the analyst explicitly asks to reconfigure it; this concept refuses the permanent control rail.
+      OWN-WORLD: Warm white paper, graphite rules, compact system typography, blue actions, and restrained type-aware data marks.
+      STORY: Read the authored report, reveal a focused field or filter surface, inspect a row, then return to the unchanged reading position.
+      FIRST VIEWPORT: Context and compact commands share one ruled report heading; state, a slim distribution note, and the table follow in a single reading column.
+      FORM: Operate-mode report, ranked first for default calm; progressive dialogs and a right-side detail inspector carry advanced control.
+    -->
+    <a class="skip-link" href="#main-content">Skip to orders table</a>
+
+    <header class="prototype-chrome">
+      <div class="prototype-chrome__identity">
+        <strong>Interactive table study</strong>
+        <span>Six governing interaction premises · state retained per variant</span>
+      </div>
+      <div class="prototype-chrome__tools">
+        <div data-component="variant-nav"></div>
+        <div data-component="scenario-nav"></div>
+      </div>
+    </header>
+
+    <main class="v1-shell" id="main-content">
+      <section class="v1-report-heading" aria-label="Report context and commands">
+        <div data-component="page-context"></div>
+        <div data-component="command-bar" data-compact="true" data-instance="report"></div>
+      </section>
+
+      <div class="v1-state" data-component="state-summary"></div>
+      <div class="v1-quality" data-component="quality-warning"></div>
+      <div data-component="narrow-note"></div>
+
+      <section class="v1-distribution" aria-label="Current distribution note">
+        <div class="v1-distribution__note">
+          <strong>Read the shape before narrowing it.</strong>
+          <span>The report keeps one compact, type-aware distribution in view. More controls stay behind Fields and Add filter.</span>
+        </div>
+        <div data-component="distribution" data-compact="true"></div>
+      </section>
+
+      <div class="v1-table" data-component="table"></div>
+    </main>
+
+    <dialog id="v1-field-surface" data-surface="fields" aria-label="Field explorer">
+      <div data-component="field-explorer"></div>
+    </dialog>
+
+    <dialog id="v1-filter-surface" data-surface="filters" data-auto-close="true" aria-label="Filter builder">
+      <div data-component="filter-builder"></div>
+    </dialog>
+
+    <aside class="detail-surface" data-surface="detail" aria-label="Order detail and match reasoning" aria-hidden="true" hidden>
+      <div data-component="detail"></div>
+    </aside>
+
+    <script src="./assets/manifest.js"></script>
+    <script src="./assets/bootstrap.js"></script>
+  </body>
+</html>

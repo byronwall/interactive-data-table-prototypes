@@ -6,123 +6,136 @@ Updated: 2026-08-19
 
 - Read `docs/ui-prototype-brief.md` in full.
 - Read `docs/transcripts/README.md` and every transcript listed there, including the empty fragment.
-- Read `PRODUCT.md`, `DESIGN.md`, the existing `index.html`, `styles.css`, and `app.js` implementation.
+- Read `PRODUCT.md`, `DESIGN.md`, `index.html`, `styles.css`, and `app.js`.
 - Read `.codex/skills/consider-contrast/SKILL.md`.
 - Read `.codex/skills/impeccable/SKILL.md` plus `reference/new-work.md`, `reference/craft-floor.md`, and `reference/operate.md`.
-- Read the existing `docs/consider-contrast-decisions.md` decision record.
+- Read `docs/consider-contrast-decisions.md`.
 
 ## Constraints
 
-- Preserve the existing root prototype. New work belongs under `/variants` with shared library modules.
-- Use plain HTML, CSS, and JavaScript. Do not add a backend or heavy runtime dependency.
-- Keep all six concepts on `main` and publish every meaningful increment immediately.
-- Maintain a 126-row known-schema purchase-order fixture matching the brief. The authored default is unfiltered; the canonical exploration state returns exactly 24 rows.
-- Every variant must expose: authored default, filtered exploration, field explorer open, rich detail open, no results, saved state, data-quality warning, and a narrow-width composition.
-- All state must be serializable and stored independently by variant so switching concepts does not erase work.
+- Preserve the existing root prototype. New work belongs under `/variants` with shared modules.
+- Use plain HTML, CSS, and JavaScript. No backend or heavy runtime dependency.
+- Keep all concepts on `main`; publish each meaningful increment immediately.
+- Use a deterministic 126-row purchase-order fixture. The authored default is unfiltered; the canonical exploration state returns exactly 24 rows.
+- Every variant exposes authored default, filtered exploration, field explorer open, rich detail open, no-results recovery, narrow width, saved-state, and data-quality warning.
+- State is serializable and namespaced by variant so switching concepts does not erase work.
 - Playwright navigation, semantic assertions, screenshots, and pixel comparison are release gates.
-- Accessibility is part of the interaction contract: keyboard paths, visible focus, ARIA state, focus trap/restore, non-color status signals, and reduced-motion handling.
+- Accessibility is part of the interaction contract: keyboard paths, visible focus, overlay focus trap/restore, ARIA state, non-color signals, and reduced-motion handling.
 
 ## Assumptions
 
-- This runtime cannot access the requested existing local checkout or push through the shell. The repository is available through the authenticated GitHub connector.
-- A local reconstruction is used for implementation and browser verification. Connector commits preserve the remote `main` tree and advance it with non-force updates.
-- Screenshot binaries remain local under `.artifacts/`. A committed visual report records dimensions, hashes, comparison results, and inspected scenarios.
-- Chromium 144 at `/usr/bin/chromium` and Python Playwright are the verification environment.
-- The existing root prototype remains unchanged except for optional navigation/documentation links added during finalization.
+- The requested local checkout was absent and shell DNS cannot reach GitHub. The authenticated GitHub connector is used for remote commits and pushes.
+- A local reconstruction is used for implementation and browser verification. Connector commits preserve the existing remote tree.
+- Screenshot binaries remain local under `.artifacts/`; a committed report records hashes, dimensions, comparisons, and inspected scenarios.
+- Chromium and Python Playwright are the verification environment.
+- The existing root prototype remains unchanged except for optional documentation/navigation links during finalization.
 
 ## Decision checkpoints
 
 ### Shared implementation architecture
 
-**Decision:** Choose how six materially different interaction concepts share behavior while retaining state across variant switching.
+**Decision:** Choose how six materially different concepts share behavior while retaining state.
 
 Scores use 0 for failure and 10 for reliably meeting the named table outcome.
 
-| Approach | Interaction-premise separation | State continuity between concepts | Acceptance-criteria parity | Cross-variant defect containment | Main tradeoff |
+| Approach | Interaction-premise separation | State continuity | Acceptance parity | Defect containment | Main tradeoff |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Six unrelated pages and scripts | 10 — each can diverge freely | 2 — state models drift or disappear | 4 — required behavior is reimplemented six times | 8 — a defect may stay local | Maximum visual freedom creates inconsistent table semantics |
-| One monolithic page with CSS modes | 4 — layout can change, governing mechanics tend to converge | 10 — one state object is trivial | 9 — every mode inherits features | 3 — a render defect affects all concepts | Easy parity, weak variation quality |
-| **Shared state/runtime with six composition modules** | **9 — each module owns placement and disclosure mechanics** | **10 — namespaced state is stable across navigation** | **10 — one tested model supplies all required behavior** | **7 — shared logic defects are broad, composition defects remain local** | Requires explicit extension points rather than ad-hoc markup |
+| Six unrelated pages/scripts | 10 | 2 | 4 | 8 | Maximum freedom creates inconsistent semantics. |
+| One monolithic page with CSS modes | 4 | 10 | 9 | 3 | Easy parity, weak variation quality. |
+| **Shared runtime with six composition modules** | **9** | **10** | **10** | **7** | Requires explicit extension points. |
 
-- **Choice:** Shared state/runtime with six composition modules.
-- **Why:** It is the only option that strongly satisfies state continuity, acceptance parity, and meaningful composition differences at once.
-- **Watch:** Shared render helpers must not force every variant into the same information hierarchy.
-- **Next:** Keep data, state transitions, filtering, distributions, persistence, focus management, and test IDs shared. Keep shell topology, disclosure surfaces, density, and primary workflow variant-owned.
+- **Choice:** Shared runtime with six composition modules.
+- **Why:** It best combines meaningful topology changes, stable state, and acceptance parity.
+- **Watch:** Shared helpers must not force identical information hierarchy.
+- **Next:** Share data, transitions, filters, distributions, persistence, focus, and test IDs. Keep shell topology, disclosure, density, and primary workflow variant-owned.
 
 ### Required-state routing
 
-**Decision:** Make every review state reproducible without turning the prototypes into static screenshots.
+**Decision:** Make every review state reproducible without reducing prototypes to static frames.
 
-| Approach | State reproducibility | Real interaction fidelity | Keyboard discoverability | Saved-state isolation | Main tradeoff |
+| Approach | Reproducibility | Interaction fidelity | Keyboard discoverability | Saved-state isolation | Main tradeoff |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Manual interaction only | 3 — reviewers must recreate every state | 10 — all state is organic | 6 — controls can be found, but setup is lengthy | 8 — local state is natural | Weak for deterministic testing and review |
-| Static duplicated frames | 10 — every URL is fixed | 2 — frames do not prove recovery paths | 8 — route navigation is clear | 2 — state is not actually persisted | Strong screenshots, weak product behavior |
-| **Scenario query plus real state engine** | **10 — `?scenario=` deterministically seeds each state** | **10 — seeded state remains editable and recoverable** | **9 — a labeled scenario selector and URLs expose states** | **10 — each variant stores its own working state** | Scenario seeding must not overwrite user state unless explicitly selected |
+| Manual setup only | 3 | 10 | 6 | 8 | Weak deterministic review. |
+| Static duplicate frames | 10 | 2 | 8 | 2 | Strong screenshots, weak behavior. |
+| **Scenario query plus real state engine** | **10** | **10** | **9** | **10** | Scenario seeding must not overwrite ordinary restored state. |
 
 - **Choice:** Scenario query plus real state engine.
-- **Why:** It supports deterministic screenshots and assertions while keeping every state fully interactive.
-- **Watch:** The authored scenario must reset to the brief, while ordinary navigation restores the variant’s last state.
-- **Next:** Add a labeled scenario selector, query routes, and variant-scoped local storage.
+- **Why:** Deterministic screenshots and assertions remain fully interactive and recoverable.
+- **Watch:** Ordinary navigation restores variant state; explicit scenarios intentionally seed state.
+- **Next:** Add a labeled scenario selector, query routes, and variant-scoped storage.
 
 ### Visual verification model
 
-**Decision:** Verify desktop, narrow, switching, recovery, warning, and overlay states without committing a large binary artifact set.
+**Decision:** Block visual regressions without adding a large binary history.
 
-| Approach | Regression sensitivity | Review traceability | Repository footprint | Cross-platform stability | Main tradeoff |
+| Approach | Regression sensitivity | Review traceability | Repository footprint | Runtime stability | Main tradeoff |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Screenshots without comparison | 4 — gross failures are visible, drift is unmeasured | 7 — artifacts can be inspected | 10 — images stay local | 9 — no brittle threshold | No blocking visual regression signal |
-| Commit every baseline PNG | 10 — precise pixel comparisons | 10 — baseline lives with code | 2 — dozens of binaries grow history | 5 — browser/font differences are noisy | Strongest trace, largest and most brittle repository cost |
-| **Local baselines plus committed manifest and diff report** | **9 — pixel differences block the local run** | **9 — hashes, dimensions, mismatch counts, and scenario names are committed** | **9 — binary artifacts remain ignored** | **8 — the fixed Chromium runtime controls variance** | Reviewers need to regenerate images to see pixels |
+| Capture only | 4 | 7 | 10 | 9 | No blocking diff signal. |
+| Commit every PNG baseline | 10 | 10 | 2 | 5 | Strong trace, brittle and heavy. |
+| **Local baselines plus committed manifest/report** | **9** | **9** | **9** | **8** | Reviewers regenerate pixels locally. |
 
-- **Choice:** Local baselines plus a committed visual report.
-- **Why:** It gives blocking screenshot comparison and durable evidence without adding dozens of PNGs to Git history.
-- **Watch:** Browser upgrades require intentional baseline regeneration.
-- **Next:** Generate per-variant baselines, run a second comparison pass, inspect representative PNGs, and commit `tests/visual-report.json`.
+- **Choice:** Local baselines plus committed manifest/report.
+- **Why:** Pixel differences block the run while durable evidence stays small.
+- **Watch:** Chromium upgrades require intentional baseline regeneration.
+- **Next:** Capture per-variant baselines, compare a second pass, inspect representative images, and commit `tests/visual-report.json`.
 
 ## Variant interaction contracts
 
 ### V1 — Quiet Report Mode
-
-- Report-first reading surface. Controls live in compact disclosure dialogs and a quiet summary strip.
-- Field selection is a searchable modal; filter construction is a focused popover/dialog.
-- Distribution summaries are restrained annotations near the active slice, not a permanent workbench.
-- Tradeoff: maximum default clarity, slower repeated field/filter iteration.
+- Report-first reading surface. Controls use focused dialogs and a quiet summary strip.
+- Field selection is a searchable modal; filter construction is a focused overlay.
+- Distribution summaries stay restrained near the active slice.
+- Tradeoff: maximum default clarity, slower repeated configuration.
 
 ### V2 — Workbench Rail Mode
-
-- Persistent left field/filter rail and a dedicated distribution workspace keep configuration visible.
-- Field rows expose visibility, ordering, width, quality, and compact distributions in place.
-- Tradeoff: fastest exploratory iteration, least calm default and least table width.
+- Persistent left field/filter rail plus dedicated distribution workspace.
+- Field rows expose visibility, ordering, width, quality, and compact distributions.
+- Tradeoff: fastest iteration, least calm default and least table width.
 
 ### V3 — Chip-First Filter Mode
-
-- Active and draft conditions are the primary command surface. Chips are editable objects, not passive summaries.
+- Active and draft conditions are the primary command surface. Chips are editable objects.
 - Field discovery opens from an add-field chip and remains secondary to query construction.
-- Tradeoff: filtering is highly recoverable, initial field-management discoverability is lower.
+- Tradeoff: filtering is highly recoverable; field-management discovery is less immediate.
 
 ### V4 — Distribution-First Mode
-
-- A large type-aware distribution canvas precedes the table and acts as the main filter entry point.
-- Numeric raw/normalized comparison, date period bars, categories, and outliers are first-class.
-- Tradeoff: distribution literacy is excellent, row scanning begins lower on the page.
+- A large type-aware distribution canvas precedes the table and drives filtering.
+- Numeric raw/normalized comparison, periods, categories, and outliers are first-class.
+- Tradeoff: distribution literacy is strongest; row scanning begins lower.
 
 ### V5 — Inspector & Match-Reasoning Mode
-
-- A persistent reasoning inspector explains the active AND chain and why the selected row matched.
-- Search hidden-field evidence, malformed values, and row detail share one contextual panel.
-- Tradeoff: explanation and recovery are strongest, table width is constrained.
+- A persistent reasoning inspector explains the active AND chain and selected-row match.
+- Hidden-field evidence, malformed values, and record detail share one panel.
+- Tradeoff: explanation/recovery are strongest; table width is constrained.
 
 ### V6 — Hybrid Report + Workbench Mode
-
-- Opens as a calm report. An explicit Report/Explore mode switch reveals a bounded workbench without replacing the table.
+- Opens as a calm report. An explicit Report/Explore switch reveals a bounded workbench without replacing the table.
 - Combines compact summary reading with high-control field, filter, and distribution panels.
-- Tradeoff: strongest overall balance, slightly more conceptual UI because the mode boundary must be understood.
+- Tradeoff: strongest balance; the mode boundary adds one concept to learn.
 
 ## Open risks
 
-- Connector and local Git histories are separate. Every remote write must use the latest remote parent and base tree; every local commit must remain clean independently.
-- Shared runtime abstractions could make variants too similar. Each variant will be reviewed against its interaction contract, not only styling.
-- Width controls can destabilize narrow layouts. The narrow presentation must explicitly name hidden/off-screen fields and use sheets rather than silent removal.
-- Numeric normalization can confuse users. Raw and normalized modes require labeled units, plain-language captions, and the raw value in tooltips/accessible text.
-- Pixel tests can become noisy after Chromium changes. Browser executable/version is recorded in the visual report.
-- The environment has no independent visual-review subagent. Representative screenshots will be opened and inspected directly in addition to automated comparison.
+- Connector and local Git histories are separate. Every remote write must use the latest parent/base tree; every local commit must remain clean.
+- Shared abstractions can make variants too similar. Review each against its governing interaction premise.
+- Width controls can destabilize narrow layouts. Narrow views explicitly name hidden/off-screen fields and use sheets rather than silent removal.
+- Numeric normalization can confuse. Every normalized display keeps raw units in labels and accessible text.
+- Pixel tests can be noisy after Chromium changes. Record browser version in the report.
+- No independent visual-review subagent is available. Open and inspect representative screenshots directly in addition to automated comparison.
+
+## Implemented checkpoint: V1 Quiet Report Mode
+
+- **Structure:** An editorial report header combines context and a compact command row. State remains a ruled, plain-language line. A compact distribution is always visible, while field/filter configuration uses focused modal surfaces and record detail uses a right sheet.
+- **State engine:** One deterministic 126-row fixture produces the exact 24-row canonical slice. Scenario seeding is isolated from the normal per-variant saved state so review URLs do not overwrite a user's working configuration.
+- **Storage:** `localStorage` is primary. A `window.name` session fallback allows the same state code to execute under browsers where storage is denied, including the constrained verification runtime.
+- **Field mechanics:** Search, all/selected/hidden scopes, multi-select, persistent selected/hidden labels, empty-selection recovery, order controls, range width controls, auto width, field signals, and compact distributions.
+- **Filter mechanics:** Explicit field/operator/value builder; exact substring, category, range, presence, list count, explicit date bounds, and period presets; live count, validation states, editable/removable chips, saved filter sets, clear conditions, and clear-all recovery.
+- **Distribution mechanics:** Working-set overlays against all 126 rows, raw/normalized amount scale, capped main histogram, explicit high-outlier lane, category bars, date periods, and malformed-date disclosure.
+- **Accessibility:** Native table and dialog semantics, slash shortcut, visible focus, modal close and focus restoration, live result/validation announcements, Escape handling, non-color symbols, and explicit narrow-width overflow disclosure.
+- **Verification:** Python Playwright assertions cover all eight required states and primary interaction recovery. Eight desktop/narrow screenshots were captured twice with zero mismatched pixels on Chromium 144. Directly inspected authored, field explorer, no-results, warning/detail, and narrow frames.
+- **Runtime packaging:** A small bootstrap inflates one deterministic gzip JSON payload split into Git-friendly fragments. The test harness decodes the same payload before injection, so browser verification covers the exact shipped CSS and JavaScript.
+
+### V1 tradeoffs and risks
+
+- The always-visible compact distribution adds useful context but makes the default report longer than a table-only design.
+- Native modal field and filter surfaces preserve table calm but make repeated cross-field tuning slower than a persistent workbench.
+- The verification container blocks top-level HTTP, HTTPS, and file navigation. The harness navigates to `about:blank`, injects checked-in documents verbatim, and separately asserts switch hrefs; this is recorded in `tests/visual-report.json`.
+- Screenshot baselines are intentionally local and ignored. The committed report records dimensions, SHA-256 hashes, browser version, mismatch counts, and the representative frames inspected.
