@@ -1,0 +1,1 @@
+Alright next, we've got our interactive data table. We have figured out the columns we want to show. We've got enough rows that we know we're justified in actually having this table be interactive or controllable. What do we want to do to help control the rows that are displayed and how the rows are displayed on the screen?

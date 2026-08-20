@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order room · Interactive data table</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!--
+      THESIS: Start with a calm, useful table; keep the spreadsheet-like control wall out of the first view.
+      OWN-WORLD: A restrained paper-and-ink workbench uses warm white, graphite rules, blue actions, and compact data controls.
+      STORY: An analyst reads the current slice, reveals fields when needed, explains a match, inspects a record, and saves the view.
+      FIRST VIEWPORT: Title and state sit above a compact command row; the six-column table is the dominant, scrollable object.
+      FORM: Operate-mode workbench, using a sticky table and right inspector with a left-to-right field rail for progressive disclosure.
+    -->
+    <main class="app-shell">
+      <header class="page-header">
+        <div>
+          <p class="kicker">Operations / synthetic fixture</p>
+          <h1>Order room</h1>
+          <p class="lede">A readable starting point for exploring purchase orders, delivery risk, and source quality.</p>
+        </div>
+        <div class="dataset-stamp" aria-label="Data set status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Local data · 1,000 rows</span>
+        </div>
+      </header>
+
+      <section class="command-bar" aria-label="Table controls">
+        <div class="search-block">
+          <label for="global-search">Search all fields</label>
+          <div class="search-input-wrap">
+            <input id="global-search" type="search" placeholder="Try PO-10, a buyer, or a note" autocomplete="off" />
+            <kbd>/</kbd>
+          </div>
+          <p class="assistive-copy" id="search-hint">Substring search. Hidden-field matches are disclosed in each row.</p>
+        </div>
+        <div class="control-group">
+          <label for="sort-field">Sort by</label>
+          <div class="inline-controls">
+            <select id="sort-field" aria-label="Sort field"></select>
+            <select id="sort-direction" aria-label="Sort direction">
+              <option value="default">Default</option>
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group view-control">
+          <label for="view-select">Saved view</label>
+          <select id="view-select">
+            <option value="default">Authored default</option>
+          </select>
+          <span class="save-state" id="save-state">Saved</span>
+        </div>
+        <div class="control-group demo-control">
+          <label for="demo-state">Demo state</label>
+          <select id="demo-state" aria-label="Load a reproducible demo state">
+            <option value="default">Authored playground</option>
+            <option value="filtered">Filtered exploration</option>
+            <option value="rail">Field rail open</option>
+            <option value="quality">PO-37 detail / data quality</option>
+            <option value="empty">No results</option>
+            <option value="modified">Modified layout</option>
+          </select>
+        </div>
+        <button class="button button-secondary" id="explore-toggle" type="button" aria-expanded="false" aria-controls="field-rail">Explore fields <span class="button-count" id="hidden-count">6 hidden</span></button>
+        <button class="button button-primary" id="save-view" type="button">Save as new</button>
+      </section>
+
+      <section class="state-strip" aria-live="polite">
+        <div>
+          <strong id="result-summary">1,000 orders</strong>
+          <span id="visible-summary">Showing 30 rows on this page</span>
+        </div>
+        <div class="active-filters" id="active-filters" aria-label="Active filters"></div>
+        <button class="text-button" id="reset-all" type="button">Reset all</button>
+      </section>
+
+      <div class="responsive-note" id="responsive-note" role="status">
+        <strong>Wide table.</strong> Scroll horizontally to reach every shown field. <span id="responsive-fields"></span>
+      </div>
+
+      <section class="workspace-grid">
+        <aside class="field-rail" id="field-rail" aria-label="Explore fields" hidden>
+          <div class="rail-heading">
+            <div>
+              <p class="kicker">Field rail</p>
+              <h2>Choose your view</h2>
+            </div>
+            <button class="icon-button" id="rail-close" type="button" aria-label="Close field rail">×</button>
+          </div>
+          <p class="rail-copy">Show, hide, and move fields. Filter low-cardinality fields here.</p>
+          <div class="field-list" id="field-list"></div>
+        </aside>
+
+        <section class="table-panel" aria-label="Orders table">
+          <div class="table-scroll" tabindex="0">
+            <table>
+              <caption class="sr-only">Synthetic purchase order data. Select a row to open its inspector.</caption>
+              <thead id="table-head"></thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="empty-state" hidden>
+            <h2>No matching orders</h2>
+            <p id="empty-copy">Try a shorter search or clear one of the active filters.</p>
+            <button class="button button-secondary" id="reset-empty" type="button">Reset search and filters</button>
+          </div>
+          <footer class="table-footer">
+            <span id="page-summary">Rows 1–30 of 1,000</span>
+            <div class="pagination" aria-label="Pagination">
+              <button class="button button-secondary" id="prev-page" type="button">Previous</button>
+              <span id="page-number">Page 1 of 34</span>
+              <button class="button button-secondary" id="next-page" type="button">Next</button>
+            </div>
+          </footer>
+        </section>
+      </section>
+    </main>
+
+    <div class="scrim" id="scrim" hidden></div>
+    <aside class="inspector" id="inspector" role="dialog" aria-modal="true" aria-labelledby="inspector-title" aria-hidden="true" hidden>
+      <div class="inspector-heading">
+        <div>
+          <p class="kicker">Record inspector</p>
+          <h2 id="inspector-title">Order detail</h2>
+        </div>
+        <button class="icon-button" id="inspector-close" type="button" aria-label="Close order detail">×</button>
+      </div>
+      <p class="inspector-context" id="inspector-context"></p>
+      <div class="detail-grid" id="detail-grid"></div>
+    </aside>
+
+    <div class="scrim save-scrim" id="save-scrim" hidden></div>
+    <section class="save-dialog" id="save-dialog" role="dialog" aria-modal="true" aria-labelledby="save-dialog-title" aria-describedby="save-dialog-copy" aria-hidden="true" hidden>
+      <p class="kicker">Saved view</p>
+      <h2 id="save-dialog-title">Name this view</h2>
+      <p id="save-dialog-copy" class="save-dialog-copy">Save the current search, filters, field order, and sort as a local checkpoint.</p>
+      <form id="save-form" novalidate>
+        <label for="view-name">View name</label>
+        <input id="view-name" name="viewName" type="text" maxlength="60" autocomplete="off" required />
+        <p class="field-error" id="view-name-error" role="alert" hidden>Enter a name to save this view.</p>
+        <div class="dialog-actions">
+          <button class="button button-secondary" id="save-cancel" type="button">Cancel</button>
+          <button class="button button-primary" id="save-confirm" type="submit">Save view</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script src="app.js"></script>
+  </body>
+</html>

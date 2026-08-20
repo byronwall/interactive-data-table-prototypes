@@ -1,0 +1,636 @@
+{
+  "schema_version": "0.4.0",
+  "initiative": {
+    "title": "Interactive data table explorer",
+    "slug": "interactive-data-table-explorer",
+    "scale": "capability",
+    "current_phase": "plan",
+    "last_updated": "2026-08-17",
+    "summary": "An adaptive, data-aware table that begins with an authored view and reveals field discovery, filtering, rich detail, and saved state in layers."
+  },
+  "artifacts": {
+    "intent_brief": {
+      "path": "intent-brief.md",
+      "status": "current",
+      "updated_at": "2026-08-17"
+    },
+    "brainstorm": {
+      "path": "brainstorm.md",
+      "status": "not-requested",
+      "updated_at": null
+    },
+    "shape_brief": {
+      "path": "shape-brief.md",
+      "status": "current",
+      "updated_at": "2026-08-17"
+    },
+    "implementation_plan": {
+      "path": "implementation-plan.md",
+      "status": "current",
+      "updated_at": "2026-08-17"
+    }
+  },
+  "sources": [
+    {
+      "id": "s01",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-25-210854-topic-setup.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation",
+      "evidence_role": "topic boundary only"
+    },
+    {
+      "id": "s02",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-25-211237-explorer-foundations.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s03",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-25-211900-column-controls.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s04",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-25-213831-row-controls-fragment.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation",
+      "evidence_role": "sequence transition only"
+    },
+    {
+      "id": "s05",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-26-210709-row-and-cell-rendering.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s06",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-26-212421-rich-cell-structures.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s07",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-28-142357-empty-fragment.txt",
+      "anchor": "empty transcript",
+      "authority": "archive record",
+      "evidence_role": "no claims"
+    },
+    {
+      "id": "s08",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-28-143211-filtering-and-distributions.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s09",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-29-073903-date-filtering.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s10",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-29-211209-saved-views-and-formatting.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s11",
+      "type": "transcript",
+      "location": "../../transcripts/2026-06-29-213347-known-vs-arbitrary-schema.txt",
+      "anchor": "full transcript",
+      "authority": "direct first-party dictation"
+    },
+    {
+      "id": "s12",
+      "type": "user-request",
+      "location": "conversation on 2026-08-17",
+      "anchor": "current request",
+      "authority": "current explicit instruction"
+    }
+  ],
+  "intent": {
+    "claims": [
+      {
+        "id": "c01",
+        "type": "outcome",
+        "statement": "Create a detailed, evidence-backed handoff that several frontend UI tools can prototype independently.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "proof",
+        "sources": ["s12#detailed brief", "s12#hand it off to a number of different UI tools"]
+      },
+      {
+        "id": "c02",
+        "type": "outcome",
+        "statement": "Use the tool outputs to compare initial rendering, progressive disclosure, and meaningful design variance.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "proof",
+        "sources": ["s12#initial rendering", "s12#progressively disclosed elements", "s12#variance"]
+      },
+      {
+        "id": "c03",
+        "type": "required behavior",
+        "statement": "Adapt the table experience to row count, column count, data type, distribution, and the user's task.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s02#ideal display depends on rows and columns", "s03#large number of columns", "s08#data type aware filter", "s11#known versus arbitrary data"]
+      },
+      {
+        "id": "c04",
+        "type": "required behavior",
+        "statement": "Treat very small tables as authored visual output rather than forcing an exploratory interface.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s02#one or two rows", "s02#table as visual output", "s11#three-column table"]
+      },
+      {
+        "id": "c05",
+        "type": "desired experience",
+        "statement": "Start with a useful default and add controls only when they create clear value.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s11#vast majority do not need fancy controls", "s11#least amount of user interface", "s11#best possible formatting"]
+      },
+      {
+        "id": "c06",
+        "type": "required behavior",
+        "statement": "Let users select visible columns and keep omitted columns discoverable.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s03#control which columns are on screen", "s03#interface to show what's been hidden"]
+      },
+      {
+        "id": "c07",
+        "type": "required behavior",
+        "statement": "Support column labels, previews, reordering, direct resizing, and useful auto-sizing.",
+        "commitment": "repeated",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s03#alias or label", "s03#render a preview", "s03#drag to resize", "s03#reorder the columns", "s03#double click to auto resize"]
+      },
+      {
+        "id": "c08",
+        "type": "constraint",
+        "statement": "Horizontal overflow must remain visible and orient users to the fields outside the viewport.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s03#horizontal scroller", "s03#unaware that the table has horizontal overflow", "s11#scroll horizontally"]
+      },
+      {
+        "id": "c09",
+        "type": "required behavior",
+        "statement": "Format each data type well by default and keep raw values separate from display formatting.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s03#common data type common data format", "s08#display value", "s11#best possible formatting"]
+      },
+      {
+        "id": "c10",
+        "type": "required behavior",
+        "statement": "Keep rows compact while preserving an explicit path to full content.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s05#maximum number of lines", "s05#progressive disclosure", "s11#text wraps to two or three lines maximum"]
+      },
+      {
+        "id": "c11",
+        "type": "desired experience",
+        "statement": "Use the smallest detail surface that fits the content: hover card, popover, expansion, inspector, or modal.",
+        "commitment": "repeated",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s05#modal with a zoom", "s05#hover and it gets bigger", "s06#on hover pop out a little card", "s11#inspector detail display"]
+      },
+      {
+        "id": "c12",
+        "type": "required behavior",
+        "statement": "Render lists and related objects as coherent cell summaries instead of spreading sparse repeated values across many columns.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "later",
+        "sources": ["s06#one or many items", "s06#recent purchases", "s06#relationships in your data"]
+      },
+      {
+        "id": "c13",
+        "type": "required behavior",
+        "statement": "Offer a compact global search that updates immediately and marks exact matching text.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s08#global filter", "s08#mark", "s11#bare minimum", "s11#start updating"]
+      },
+      {
+        "id": "c14",
+        "type": "constraint",
+        "statement": "Search only user-meaningful values and disclose matches in hidden fields.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s08#all columns or visible", "s08#keys being matched", "s08#internal development detail"]
+      },
+      {
+        "id": "c15",
+        "type": "constraint",
+        "statement": "Do not present fuzzy matches as precise filter results without explaining their ranking and scope.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s08#fuzzy and exact", "s08#exact matches appear before fuzzy", "s08#actual count", "s11#normal business applications do not want fuzzy"]
+      },
+      {
+        "id": "c16",
+        "type": "required behavior",
+        "statement": "Represent all active filters as one coherent query while allowing several editing surfaces.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s08#single query object", "s08#choosing how to let the user see the query"]
+      },
+      {
+        "id": "c17",
+        "type": "required behavior",
+        "statement": "Use numeric range controls instead of requiring exact text entry.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s08#numeric input", "s08#greater than less than", "s11#hostile experience", "s11#range filter"]
+      },
+      {
+        "id": "c18",
+        "type": "required behavior",
+        "statement": "Use direct toggles for low-cardinality categories and disclose the remaining values for medium cardinality.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s08#small bounded set", "s08#toggle buttons", "s08#20 additional unique values"]
+      },
+      {
+        "id": "c19",
+        "type": "required behavior",
+        "statement": "Show uniqueness, null rate, cardinality, and distributions when these facts help users choose fields or filters.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s03#preview a sample a subset", "s08#cardinality", "s08#every value is unique", "s11#200 columns and 50 null"]
+      },
+      {
+        "id": "c20",
+        "type": "preference",
+        "statement": "Use distributions as direct filters only when their scale and precision support the user's likely selection.",
+        "commitment": "repeated",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "later",
+        "sources": ["s02#graphics as filtering mechanism", "s08#histogram", "s08#back it up with text inputs", "s09#render with same precision"]
+      },
+      {
+        "id": "c21",
+        "type": "required behavior",
+        "statement": "Date filters must follow natural time boundaries and distinguish sliding durations from calendar periods.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s09#last month", "s09#last 30 days", "s09#this month this year this quarter"]
+      },
+      {
+        "id": "c22",
+        "type": "constraint",
+        "statement": "Date and time filters must use explicit time-zone semantics and produce the same result on server and client.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "later",
+        "sources": ["s09#time zone", "s09#server-side rendering", "s09#off by six hours"]
+      },
+      {
+        "id": "c23",
+        "type": "required behavior",
+        "statement": "Sorting must include ascending, descending, and return-to-default states.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s11#three-click", "s11#recover some default sort"]
+      },
+      {
+        "id": "c24",
+        "type": "required behavior",
+        "statement": "Identifiers with numeric parts must use natural rather than lexical sort order.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s11#run one run eight run nine run ten"]
+      },
+      {
+        "id": "c25",
+        "type": "anti-goal",
+        "statement": "Do not put multi-column sorting in the standard business-table experience.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s11#do not need a multi-column sort", "s11#proper data grid"]
+      },
+      {
+        "id": "c26",
+        "type": "required behavior",
+        "statement": "Preserve all user-configured view state and reproduce it after refresh or sharing.",
+        "commitment": "repeated",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s03#persists in some way", "s10#persisted somewhere", "s10#fully reproduce the state"]
+      },
+      {
+        "id": "c27",
+        "type": "sequence",
+        "statement": "Store compact view state in the URL first, then use named workspace views when state becomes too large or contextual.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "later",
+        "sources": ["s10#query parameters", "s10#first party feature", "s10#workspace or project"]
+      },
+      {
+        "id": "c28",
+        "type": "constraint",
+        "statement": "Autosave must remain visible and must not silently overwrite a named checkpoint.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s10#automatic saving", "s10#overriding the thing that they named", "s10#named breakpoint"]
+      },
+      {
+        "id": "c29",
+        "type": "preference",
+        "statement": "Keep authored default views few and meaningful while allowing users to name their own longer view lists.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "first release",
+        "sources": ["s11#only giving them meaningfully different slices", "s11#three total choices", "s11#user created it and named it"]
+      },
+      {
+        "id": "c30",
+        "type": "future possibility",
+        "statement": "Formatting can inherit from category to variable to view, with clear local overrides.",
+        "commitment": "repeated",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "eventual",
+        "sources": ["s10#category", "s10#specific variable", "s10#instance in a table", "s10#overrides"]
+      },
+      {
+        "id": "c31",
+        "type": "preference",
+        "statement": "Put formatting controls near the displayed value and show live results while the user changes them.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "later",
+        "sources": ["s10#as close to the display as possible", "s10#context menu", "s10#see the result while they're changing"]
+      },
+      {
+        "id": "c32",
+        "type": "required behavior",
+        "statement": "Arbitrary input requires field discovery, type inference, samples, distributions, errors, and user correction before table configuration.",
+        "commitment": "explicit",
+        "importance": "supporting",
+        "status": "active",
+        "time_horizon": "later",
+        "sources": ["s11#detect the fields", "s11#determine the data type", "s11#sample of data", "s11#collect errors"]
+      },
+      {
+        "id": "c33",
+        "type": "anti-goal",
+        "statement": "Do not let arbitrary-table support expand silently into a complete ETL or spreadsheet platform.",
+        "commitment": "explicit",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "proof",
+        "sources": ["s11#full ETL", "s11#different application", "s11#spreadsheet like interface"]
+      },
+      {
+        "id": "c34",
+        "type": "derived implication",
+        "statement": "The first comparison prototype should use a known schema, fixed data, and serializable local state.",
+        "commitment": "derived",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "proof",
+        "sources": ["c01", "c02", "c05", "c26", "c33"]
+      },
+      {
+        "id": "c35",
+        "type": "derived implication",
+        "statement": "Tool comparisons need identical data, tasks, and state frames while allowing visual and interaction variants.",
+        "commitment": "derived",
+        "importance": "core",
+        "status": "active",
+        "time_horizon": "proof",
+        "sources": ["c01", "c02", "c34"]
+      }
+    ],
+    "themes": [
+      "adaptive complexity",
+      "authored defaults",
+      "field discovery",
+      "type-aware filtering",
+      "visible and reversible state",
+      "progressive disclosure",
+      "dense rich cells",
+      "saved views",
+      "known versus arbitrary schemas",
+      "responsive integrity"
+    ],
+    "conflicts": [
+      {
+        "id": "x01",
+        "statements": ["Global search is less common in serious data work.", "A global text filter is the bare minimum for many business tables."],
+        "resolution": "Use a compact global exact-substring search as the default. Add column-aware filters when filtering becomes a central task.",
+        "sources": ["s08#less common", "s11#bare minimum"]
+      },
+      {
+        "id": "x02",
+        "statements": ["Fixed-width tables avoid hidden overflow.", "Direct column resizing improves fit and user control."],
+        "resolution": "Permit bounded resizing, preserve explicit overflow signals, and never remove fields silently.",
+        "sources": ["s03#table width fixed", "s03#drag to resize", "s03#horizontal scroller"]
+      },
+      {
+        "id": "x03",
+        "statements": ["Autosave protects user work.", "Autosave can overwrite the named view the user intended to preserve."],
+        "resolution": "Autosave the working state, but keep named checkpoints explicit and visibly modified.",
+        "sources": ["s10#automatic saving", "s10#named breakpoint"]
+      }
+    ],
+    "human_questions": []
+  },
+  "brainstorm": {
+    "status": "not-requested",
+    "requested_count": 7,
+    "options": [],
+    "selected_option": null
+  },
+  "shape": {
+    "status": "current",
+    "appetite": "A detailed comparison brief and a high-fidelity, local prototype of one representative known-schema flow.",
+    "problem": "Tables become either underpowered static reports or permanently complex grids because controls do not adapt to data and task.",
+    "recommended_shape": {
+      "summary": "One responsive table with default, exploration, and focused-detail layers.",
+      "source_of_truth": "A serializable TableViewState over fixed fixture data.",
+      "valid_intermediate": "Linked static or generated frames before a runnable implementation.",
+      "rollback": "Keep each concept separate and promote none until comparison review."
+    },
+    "success_moves": [
+      "Hold the data fixture, tasks, and required states constant across tools.",
+      "Require state variants instead of one polished hero screen.",
+      "Fix interaction semantics while allowing visual and layout variation.",
+      "Prove a known-schema flow before arbitrary data support.",
+      "Require tools to disclose omissions and invented behavior."
+    ],
+    "first_proof": {
+      "question": "Can users reach advanced controls without facing permanent complexity or losing their table context?",
+      "artifact": "Six linked core states plus two edge states for the same purchase-order fixture.",
+      "decision_rule": "A reviewer completes five tasks without coaching and can always state what data is shown."
+    },
+    "rabbit_holes": [
+      "Full spreadsheet behavior",
+      "Chart or dashboard authoring",
+      "Arbitrary upload and ETL",
+      "Production persistence and permissions",
+      "Hidden hover-only controls",
+      "Silent responsive field removal"
+    ],
+    "open_decisions": [
+      "Side inspector versus inline row expansion for primary detail",
+      "Left field rail versus top command surface for exploration"
+    ]
+  },
+  "implementation": {
+    "status": "current",
+    "repository_snapshot": {
+      "root": "/Users/byronwall/Projects/interactive-data-table-prototypes",
+      "revision": null,
+      "worktree_status": "new repository; documentation only",
+      "subsystems": ["docs/transcripts", "docs/intent", "docs/prompts"],
+      "test_commands": ["validate-sleuth.mjs docs/intent/interactive-data-table-explorer"],
+      "deployment_surfaces": []
+    },
+    "dependencies": [],
+    "fast_local_loop": {
+      "command": "pnpm prototype",
+      "workflow": "Open each required state directly with fixed fixture data.",
+      "shared_infrastructure_required": false,
+      "network_required": false,
+      "failure_injection": ["no results", "malformed date", "null rich text", "hidden-field match", "narrow width"]
+    },
+    "milestones": [
+      {
+        "id": "m01",
+        "title": "Comparable prototype concepts",
+        "outcome": "Three to five comparable tool outputs from one fixture and task set.",
+        "dependencies_introduced": [],
+        "proof": "Score every output against the shared comparison scorecard.",
+        "valid_intermediate_state": "A reviewable concept set with assumption logs.",
+        "rollback": "Discard any concept without affecting the source brief.",
+        "status": "planned"
+      },
+      {
+        "id": "m02",
+        "title": "Runnable local interaction",
+        "outcome": "The selected disclosure flow works against fixed local data.",
+        "dependencies_introduced": [],
+        "proof": "Complete the five review tasks and reproduce every preset state after refresh.",
+        "valid_intermediate_state": "A useful no-backend prototype.",
+        "rollback": "Keep alternative concepts and revert to the static comparison set.",
+        "status": "planned"
+      },
+      {
+        "id": "m03",
+        "title": "Data-type and disclosure contract",
+        "outcome": "Text, numeric, category, date, and rich values behave consistently.",
+        "dependencies_introduced": [],
+        "proof": "Run deterministic edge states and accessibility checks.",
+        "valid_intermediate_state": "A robust known-schema table component.",
+        "rollback": "Disable advanced controls by field capability.",
+        "status": "planned"
+      },
+      {
+        "id": "m04",
+        "title": "Responsive reference implementation",
+        "outcome": "The selected concept retains state and information access at narrow widths.",
+        "dependencies_introduced": [],
+        "proof": "Verify desktop, narrow desktop, keyboard, and reduced-motion flows.",
+        "valid_intermediate_state": "A frontend-ready reference without production services.",
+        "rollback": "Fall back to the wide layout with explicit overflow mode.",
+        "status": "planned"
+      }
+    ],
+    "cut_line": [
+      "Arbitrary input and schema correction",
+      "Editing, formulas, grouping, and pivoting",
+      "Shared persistence and permissions",
+      "Agent-generated formatting",
+      "Full chart and dashboard construction"
+    ],
+    "open_decisions": [
+      {
+        "question": "Which primary detail surface retains context best?",
+        "evidence": "Compare inline expansion and side inspector during task four.",
+        "fallback": "Responsive side panel that becomes a bottom sheet."
+      },
+      {
+        "question": "Where should field exploration live?",
+        "evidence": "Compare scan speed and remaining table width for left rail and top surface.",
+        "fallback": "Collapsible left rail on desktop and full-screen sheet on mobile."
+      }
+    ]
+  },
+  "history": [
+    {
+      "date": "2026-08-17",
+      "event": "Recovered the June 25–29 interactive-table source set and completed intent, shape, and proof-first planning artifacts."
+    }
+  ]
+}
