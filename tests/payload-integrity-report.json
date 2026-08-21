@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-08-21T12:18:06.036370+00:00",
+  "status": "passed",
+  "parts": 7,
+  "base64_length": 46412,
+  "gzip_bytes": 34809,
+  "gzip_crc32": "bef0e8a0",
+  "uncompressed_bytes": 170275,
+  "payload_sha256": "1dd622dc94f2424523b73cbfbcaf611372897c4bd0a63c5d5cab3142568d94ef",
+  "css_bytes": 47694,
+  "app_bytes": 113826,
+  "keys": [
+    "app",
+    "css"
+  ],
+  "markers": [
+    "FIXED_TODAY",
+    "PAGE_SIZE = 12",
+    "AUTHORED_FIELDS",
+    "const VARIANTS",
+    "IMPLEMENTED_VARIANTS",
+    "const SCENARIOS",
+    "const FIELD_DEFS"
+  ]
+}

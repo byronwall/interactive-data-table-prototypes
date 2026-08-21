@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./assets/v3-chip-first.css" />
+    <title>Chip-First Filter Mode · Interactive table variants</title>
+  </head>
+  <body class="variant-v3" data-variant="v3">
+    <!--
+      THESIS: A table query should be readable and editable as a visible chain of conditions; this concept refuses passive chips tucked beneath a generic toolbar.
+      OWN-WORLD: Chalk-white canvas, dark query shelf, blue condition objects, explicit AND connectors, and restrained tabular framing.
+      STORY: Compose a query from named modes, read the live surviving count, edit or remove any condition in place, then inspect the resulting rows and reasoning.
+      FIRST VIEWPORT: Compact report context and commands lead directly into a large query shelf; the table and a reasoning/distribution rail sit beneath it.
+      FORM: Operate-mode query composer, ranked first for filtering and recovery; condition objects govern the visual hierarchy while field layout remains progressive.
+    -->
+    <a class="skip-link" href="#main-content">Skip to orders table</a>
+
+    <header class="prototype-chrome">
+      <div class="prototype-chrome__identity">
+        <strong>Interactive table study</strong>
+        <span>Chip-first filtering · every condition remains editable</span>
+      </div>
+      <div class="prototype-chrome__tools">
+        <div data-component="variant-nav"></div>
+        <div data-component="scenario-nav"></div>
+      </div>
+    </header>
+
+    <main class="v3-shell" id="main-content">
+      <section class="v3-mast" aria-label="Query workspace context">
+        <div data-component="page-context"></div>
+        <div data-component="command-bar" data-compact="true" data-instance="chips"></div>
+      </section>
+
+      <div class="v3-quality" data-component="quality-warning"></div>
+      <div data-component="narrow-note"></div>
+
+      <section class="v3-query-stage" aria-label="Editable query chain">
+        <header class="v3-query-stage__heading">
+          <div>
+            <p class="kicker">Current AND chain</p>
+            <h2>Build the slice in explicit pieces</h2>
+          </div>
+          <p>Mode labels distinguish exact substring, category, range, and period logic. Each piece can be edited or removed without rebuilding the query.</p>
+        </header>
+        <div data-component="state-summary"></div>
+      </section>
+
+      <section class="v3-workspace" aria-label="Query results and explanation">
+        <div class="v3-table" data-component="table"></div>
+        <aside class="v3-context-rail" aria-label="Distribution and query reasoning">
+          <div data-component="distribution" data-compact="true"></div>
+          <div data-component="reasoning"></div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="v3-field-surface" data-surface="fields" aria-label="Field explorer">
+      <div data-component="field-explorer"></div>
+    </dialog>
+
+    <dialog id="v3-filter-surface" data-surface="filters" data-auto-close="true" aria-label="Filter builder">
+      <div data-component="filter-builder"></div>
+    </dialog>
+
+    <aside class="detail-surface" data-surface="detail" aria-label="Order detail and match reasoning" aria-hidden="true" hidden>
+      <div data-component="detail"></div>
+    </aside>
+
+    <script src="./assets/manifest.js"></script>
+    <script src="./assets/bootstrap.js"></script>
+  </body>
+</html>
